@@ -1,6 +1,6 @@
 # jaxnerf_renewal
 ## Update
-
+20230110: `train.py` and `utils.py` have been renewed.
 
 ## Objective
 Replace the obsolete functionarities in the original [JaxNeRF](https://github.com/google-research/google-research/tree/master/jaxnerf).

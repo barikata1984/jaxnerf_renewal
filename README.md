@@ -8,7 +8,7 @@ Replace the obsolete functionarities in the original [JaxNeRF](https://github.co
 ## How changed
 The codes below examplify how lines are changed from the original.
 
-- jax.host_id() to jax.process_index()  
+### jax.host_id() to jax.process_index()  
 ```Original train.py
 ︙
 def main(unused_argv):
@@ -30,7 +30,7 @@ def main(unused_argv):
 ︙
 ```
 
-- jax.host_count() to jax.process_count()
+### jax.host_count() to jax.process_count()
 ```Original nerf/utils.py  
 ︙
   else:
@@ -61,7 +61,7 @@ to
 ︙
 ```
 
-- flax.optim to optax  
+### flax.optim to optax  
 ```Original train.py
 ︙
   rng, key = random.split(rng)

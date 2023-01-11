@@ -61,7 +61,7 @@ to
 ︙
 '''
 
-- flax.optim to optax
+- flax.optim to optax  
 '''Original train.py
 ︙
   rng, key = random.split(rng)

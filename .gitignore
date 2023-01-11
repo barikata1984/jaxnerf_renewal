@@ -1,3 +1,9 @@
+# jaxnerf_renewal unique files
+checkpoints_in_tmp_20230110.zip
+
+##############################################
+# Following lines have been repared by GitHub
+##############################################
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

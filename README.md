@@ -8,7 +8,7 @@ Replace the obsolete functionarities in the original [JaxNeRF](https://github.co
 ## How changed
 The codes below examplify how lines are changed from the original.
 
-- jax.host_id() to jax.process_index()
+- jax.host_id() to jax.process_index()  
 '''Original train.py
 ︙
 def main(unused_argv):
@@ -42,7 +42,6 @@ def main(unused_argv):
     chunk_results = render_fn(key_0, key_1, chunk_rays)[-1]
     results.append([unshard(x[0], padding) for x in chunk_results])
     # pylint: enable=cell-var-from-loop
-︙
 ︙
 '''
 to

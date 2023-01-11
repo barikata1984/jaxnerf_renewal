@@ -8,8 +8,8 @@ Replace the obsolete functionarities in the original [JaxNeRF](https://github.co
 ## How changed
 The codes below examplify how lines are changed from the original.
 
-### jax.host_id() to jax.process_index()  
-```python:Original train.py
+### `jax.host_id()` to `jax.process_index()` in `train.py` 
+```python
 ︙
 def main(unused_argv):
   rng = random.PRNGKey(20200823)
@@ -19,7 +19,7 @@ def main(unused_argv):
 ︙
 ```
 to
-```python:Renewed train.py
+```python
 ︙
 def main(unused_argv):
   rng = random.PRNGKey(20200823)
@@ -29,39 +29,29 @@ def main(unused_argv):
 ︙
 ```
 
-### jax.host_count() to jax.process_count()
-```python:Original nerf/utils.py  
+### `jax.host_count()` to `jax.process_count()` in `nerf/utils.py` 
+```python
 ︙
   else:
       padding = 0
     # After padding the number of chunk_rays is always divisible by
     # host_count.
     rays_per_host = chunk_rays[0].shape[0] // jax.host_count()
-    start, stop = host_id * rays_per_host, (host_id + 1) * rays_per_host
-    chunk_rays = namedtuple_map(lambda r: shard(r[start:stop]), chunk_rays)
-    chunk_results = render_fn(key_0, key_1, chunk_rays)[-1]
-    results.append([unshard(x[0], padding) for x in chunk_results])
-    # pylint: enable=cell-var-from-loop
 ︙
 ```
 to
-```python:Renewed nerf/utils.py
+```python
 ︙
   else:
       padding = 0
     # After padding the number of chunk_rays is always divisible by
     # process_count.
     rays_per_host = chunk_rays[0].shape[0] // jax.process_count()
-    start, stop = host_id * rays_per_host, (host_id + 1) * rays_per_host
-    chunk_rays = namedtuple_map(lambda r: shard(r[start:stop]), chunk_rays)
-    chunk_results = render_fn(key_0, key_1, chunk_rays)[-1]
-    results.append([unshard(x[0], padding) for x in chunk_results])
-    # pylint: enable=cell-var-from-loop
 ︙
 ```
 
-### flax.optim to optax  
-```python:Original train.py
+### `flax.optim` to `optax` in `train.py`
+```python
 ︙
   rng, key = random.split(rng)
   model, variables = models.get_model(key, dataset.peek(), FLAGS)
@@ -69,7 +59,7 @@ to
 ︙
 ```
 to
-```python:train.py
+```python
 ︙
   rng, key = random.split(rng)
   model, variables = models.get_model(key, dataset.peek(), FLAGS)
@@ -84,14 +74,14 @@ to
 ︙
 ```
 
-### jaxnerf.nerf.utils.TrainState to flax.train_state.TrainState
-```python:train.py
+### `jaxnerf.nerf.utils.TrainState` to `flax.train_state.TrainState` in `train.py`
+```python
 ︙
   state = utils.TrainState(optimizer=optimizer)
 ︙
 ```
 to
-```python:Renewed train.py
+```python
 ︙
   state = train_state.TrainState.create(apply_fn=model.apply, params=variables["params"], tx=tx)
 ︙

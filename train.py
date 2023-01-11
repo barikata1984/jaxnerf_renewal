@@ -129,8 +129,7 @@ def main(unused_argv):
   test_dataset = datasets.get_dataset("test", FLAGS)
 
   rng, key = random.split(rng)
-  model, variables = models.get_model(key, dataset.peek(), FLAGS) # model has a function called apply, which is apply_fn in train_state
-                                                                  # variables is a dict that has params as its member
+  model, variables = models.get_model(key, dataset.peek(), FLAGS)
   schedule = utils.create_learning_rate_decay_schedule(
     lr_init=FLAGS.lr_init,
     lr_final=FLAGS.lr_final,
@@ -138,9 +137,9 @@ def main(unused_argv):
     lr_delay_steps=FLAGS.lr_delay_steps,
     lr_delay_mult=FLAGS.lr_delay_mult)
   
-  tx = optax.adam(learning_rate=schedule) # tx means gradient transnformation
-  state = train_state.TrainState.create(apply_fn=model.apply, params=variables["params"], tx=tx) # this instantiation works
-  del tx, variables#, optimizer, params
+  tx = optax.adam(learning_rate=schedule)
+  state = train_state.TrainState.create(apply_fn=model.apply, params=variables["params"], tx=tx)
+  del tx, variables
 
   train_pstep = jax.pmap(
       train_step, 

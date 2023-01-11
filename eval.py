@@ -118,7 +118,8 @@ def main(unused_argv):
       showcase_index = np.random.randint(0, dataset.size)
     for idx in range(dataset.size):
       print(f"Evaluating {idx+1}/{dataset.size}")
-      eval_variables = jax.device_get(jax.tree_map(lambda x: x[0],
+#      eval_variables = jax.device_get(jax.tree_map(lambda x: x[0],
+      eval_variables = jax.device_get(jax.tree_map(lambda x: x,
                                                    state)).params
       batch = next(dataset)
       pred_color, pred_disp, pred_acc = utils.render_image(
@@ -154,7 +155,7 @@ def main(unused_argv):
         summary_writer.scalar("psnr", np.mean(np.array(psnr_values)), step)
         summary_writer.scalar("ssim", np.mean(np.array(ssim_values)), step)
         summary_writer.image("target", showcase_gt, step)
-    if FLAGS.save_output and (not FLAGS.render_path) and (jax.host_id() == 0):
+    if FLAGS.save_output and (not FLAGS.render_path) and (jax.process_index() == 0):
       with utils.open_file(path.join(out_dir, f"psnrs_{step}.txt"), "w") as f:
         f.write(" ".join([str(v) for v in psnr_values]))
       with utils.open_file(path.join(out_dir, f"ssims_{step}.txt"), "w") as f:

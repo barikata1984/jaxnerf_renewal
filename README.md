@@ -9,7 +9,7 @@ Replace the obsolete functionarities in the original [JaxNeRF](https://github.co
 The codes below examplify how lines are changed from the original.
 
 ### jax.host_id() to jax.process_index()  
-```Original train.py
+```python:Original train.py
 ︙
 def main(unused_argv):
   rng = random.PRNGKey(20200823)
@@ -19,8 +19,7 @@ def main(unused_argv):
 ︙
 ```
 to
-```
-Renewed train.py
+```python:Renewed train.py
 ︙
 def main(unused_argv):
   rng = random.PRNGKey(20200823)
@@ -31,7 +30,7 @@ def main(unused_argv):
 ```
 
 ### jax.host_count() to jax.process_count()
-```Original nerf/utils.py  
+```python:Original nerf/utils.py  
 ︙
   else:
       padding = 0
@@ -46,7 +45,7 @@ def main(unused_argv):
 ︙
 ```
 to
-```Renewed nerf/utils.py
+```python:Renewed nerf/utils.py
 ︙
   else:
       padding = 0
@@ -62,7 +61,7 @@ to
 ```
 
 ### flax.optim to optax  
-```Original train.py
+```python:Original train.py
 ︙
   rng, key = random.split(rng)
   model, variables = models.get_model(key, dataset.peek(), FLAGS)
@@ -70,7 +69,7 @@ to
 ︙
 ```
 to
-```Renewed train.py
+```python:Renewed train.py
 ︙
   rng, key = random.split(rng)
   model, variables = models.get_model(key, dataset.peek(), FLAGS)
@@ -86,13 +85,13 @@ to
 ```
 
 - jaxnerf.nerf.utils.TrainState to flax.train_state.TrainState
-```Original train.py
+```python:Original train.py
 ︙
   state = utils.TrainState(optimizer=optimizer)
 ︙
 ```
 to
-```Renewed train.py
+```python:Renewed train.py
 ︙
   state = train_state.TrainState.create(apply_fn=model.apply, params=variables["params"], tx=tx)
 ︙

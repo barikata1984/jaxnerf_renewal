@@ -69,7 +69,7 @@ to
 ︙
 ```
 to
-```python:Renewed train.py
+```python:train.py
 ︙
   rng, key = random.split(rng)
   model, variables = models.get_model(key, dataset.peek(), FLAGS)
@@ -84,8 +84,8 @@ to
 ︙
 ```
 
-- jaxnerf.nerf.utils.TrainState to flax.train_state.TrainState
-```python:Original train.py
+### jaxnerf.nerf.utils.TrainState to flax.train_state.TrainState
+```python:train.py
 ︙
   state = utils.TrainState(optimizer=optimizer)
 ︙

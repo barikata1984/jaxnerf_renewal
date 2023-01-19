@@ -1,5 +1,7 @@
 # jaxnerf_renewal unique files
-#checkpoints_in_tmp_20230110/
+checkpoints_in_tmp_20230110/
+jaxnerf_test.ipynb
+git_find_big.sh
 
 ##############################################
 # Following lines have been repared by GitHub
